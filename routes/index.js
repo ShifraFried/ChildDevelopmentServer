@@ -1,32 +1,32 @@
 var express = require('express');
 var router = express.Router();
 const jwt = require("jsonwebtoken");
+const childController = require('../controllers/childController');
+const vaccineController = require('../controllers/vaccineController');
 
 var MongoClient = require('mongodb').MongoClient;
 var urlToCreate = "mongodb://localhost:27017/ChildDevelopmentDB";
 var url = "mongodb://localhost:27017/";
 
 
-const TOKEN_SECRET =
-  "F9EACB0E0AB8102E999DF5E3808B215C028448E868333041026C481960EFC126";
 
-const generateAccessToken = (username) => {
-  return jwt.sign({username}, TOKEN_SECRET);
-};
 
+//create DB
 router.get("/createDB", (req, res) => {
   MongoClient.connect(urlToCreate, function (err, db) {
-    console.log("err", err)
-    // if (err) {
-    //   console.error(err)
-    // } else {
-    //   console.log("Database created!");
-    //   db.close();
-    // }
+    if (err) {
+      console.error(err)
+      return res.status(500).send(err);
+    } else {
+      console.log("Database created!");
+      db.close();
+      return res.send(err);
+    }
     res.send();
   });
 })
 
+//create children collection
 router.get("/createChildrenColection", () => {
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
@@ -39,17 +39,30 @@ router.get("/createChildrenColection", () => {
   });
 })
 
-router.get("/login", function (req, res) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
-  const { user, password } = req.query;
-  //Check the pwd in the server
-  const token = generateAccessToken(user);
-  console.log("token", token);
-  return res.json({ token }).send();
-});
+//create veccine collection
+router.get("/createVaccinesColection", () => {
+  MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("ChildDevelopmentDB");
+    dbo.createCollection("vaccines", function (err, res) {
+      if (err) throw err;
+      console.log("Collection created!");
+      db.close();
+    });
+  });
+})
 
-router.post("/signup", function (req, res) {
-  const { user, password } = req.body;
-});
+router.post("/signup",childController.signup);
+router.get("/login",childController.login);
+router.put("/putWeight",childController.putWeight);
+router.put("/putBornWeight",childController.putBornWeight);
+router.post("/postVaccine",vaccineController.postVaccine);
+router.get("/getAllVaccine",vaccineController.getAllVaccine);
+router.get("/getChildVaccine/:id",childController.getChildVaccine);
+// router.get("/getChildVaccine",childController.getChildVaccine);
+// router.put("/updateRecordVaccine",()=>console.log("childController.updateRecordVaccine"));
+router.put("/updateRecordVaccine",childController.updateRecordVaccine);
+
+
 
 module.exports = router;
