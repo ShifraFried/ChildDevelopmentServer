@@ -9,8 +9,6 @@ var urlToCreate = "mongodb://localhost:27017/ChildDevelopmentDB";
 var url = "mongodb://localhost:27017/";
 
 
-
-
 //create DB
 router.get("/createDB", (req, res) => {
   MongoClient.connect(urlToCreate, function (err, db) {

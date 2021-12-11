@@ -6,7 +6,6 @@ const { update } = require('../models/child');
 const vaccine = require('../models/vaccine');
 var moment = require('moment')
 
-
 const TOKEN_SECRET =
   "F9EACB0E0AB8102E999DF5E3808B215C028448E868333041026C481960EFC126";
 
@@ -15,7 +14,6 @@ const generateAccessToken = (username) => {
 };
 
 class childController {
-
   //check if its a correct child  
   async login(req, res) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
@@ -51,12 +49,14 @@ class childController {
   //insert weight + age to weight history
   async putWeight(req, res) {
     console.log('in put weight');
-    let userToUpdate = await child.findOne({ 'id': req.query.id });
+    let userToUpdate = await child.findById(req.query.id);
     console.log(userToUpdate, "userToUpdate");
+    console.log(req.query, "query");
     console.log(req.body, "req.body");
     userToUpdate.weightHistory.push(req.body);
     let userToSave = await userToUpdate.save();
-    return res.status(200).send("secces");
+    console.log(userToSave,"userToSave");
+    return res.status(200).json(userToSave);
 
   }
 
@@ -68,7 +68,7 @@ class childController {
     userToUpdate.weightHistory[0].weight = req.body.weightBorn;
     userToUpdate.weightHistory.push(req.body.weightToInsert);
     let userToSave = await userToUpdate.save();
-    return res.status(200).send();
+    return res.status(200).send(userToSave);
   }
 
   async getChildVaccine(req, res) {
@@ -92,8 +92,11 @@ class childController {
     // console.log(v, "after for");
     // .forEach(e => c.recordVaccines.forEach(rv => e._id == rv.idVaccine ? rv.NumberOfVaccineDoses>1?);
     // console.log(filterVaccine);
-    // filterVaccine.forEach(element => c.recordVaccines.)
-    return res.status(200).send(v);
+    // filterVaccine.forEach(element => c.recordVaccines
+    let finalV = []
+    v.forEach(element => element.minAge.length > 0 ? finalV.push(element) : console.log(element));
+    // v.filter(element=> element.minAge.length>0)
+    return res.status(200).send(finalV);
   }
 
   async updateRecordVaccine(req, res) {

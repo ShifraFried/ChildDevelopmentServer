@@ -17,7 +17,7 @@ const childSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    weightHistory:[{age:Number,weight:String}],
+    weightHistory:[{age:Number,weight:String,date:Date}],
     birthDate: Date,
     recordVaccines:[{
        vaccineId:{type:schema.Types.ObjectId,
