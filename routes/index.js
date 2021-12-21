@@ -57,9 +57,10 @@ router.put("/putBornWeight",childController.putBornWeight);
 router.post("/postVaccine",vaccineController.postVaccine);
 router.get("/getAllVaccine",vaccineController.getAllVaccine);
 router.get("/getChildVaccine/:id",childController.getChildVaccine);
-// router.get("/getChildVaccine",childController.getChildVaccine);
-// router.put("/updateRecordVaccine",()=>console.log("childController.updateRecordVaccine"));
 router.put("/updateRecordVaccine",childController.updateRecordVaccine);
+router.post("/createItem/:id",childController.createItem);
+router.delete("/removeImage",childController.removeImage);
+
 
 
 

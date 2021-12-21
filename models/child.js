@@ -24,7 +24,10 @@ const childSchema = new mongoose.Schema({
         ref:'vaccines'} ,
         // date: Date,
         NumberOfVaccineDoses:Number
-    },{ timestamps: true }]
+    },{ timestamps: true }],
+    myPictures:[{ 
+        imageName:String,imageUrl:String,imageId:Number,
+    }]
 }
 // , { virtuals: true })
 )

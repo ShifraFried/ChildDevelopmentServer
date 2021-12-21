@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var url = "mongodb://localhost:27017/ChildDevelopmentDB";
 const child = require('../models/child')
 const jwt = require("jsonwebtoken");
-const { update } = require('../models/child');
+// const { update } = require('../models/child');
 const vaccine = require('../models/vaccine');
 var moment = require('moment')
+// var storage = require('filestorage').create('./childPictures');
 
 const TOKEN_SECRET =
   "F9EACB0E0AB8102E999DF5E3808B215C028448E868333041026C481960EFC126";
@@ -55,7 +56,7 @@ class childController {
     console.log(req.body, "req.body");
     userToUpdate.weightHistory.push(req.body);
     let userToSave = await userToUpdate.save();
-    console.log(userToSave,"userToSave");
+    console.log(userToSave, "userToSave");
     return res.status(200).json(userToSave);
 
   }
@@ -120,6 +121,26 @@ class childController {
     return res.status(200).send(c.recordVaccines);
 
   }
+
+  async createItem(req, res) {
+    let u = await child.findById(req.params.id);
+    var storage = require('filestorage').create(`./childPictures/${req.params.id}`);
+    var s = storage.insert(req.body.imageName, req.body.imageUrl);
+    // if (s) {
+      u.myPictures.push({ imageName: req.body.imageName, imageUrl: `childPictures/${req.params.id}/${s}`, imageId: s });
+      u.save();
+    // }
+    return res.status(200).send(u.myPictures);
+  }
+
+  async getChildPictures(req, res) {
+
+  }
+
+  async removeImage(req, res) {
+    storage.remove(1);
+  }
+
 }
 
 module.exports = new childController();
