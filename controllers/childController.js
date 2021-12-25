@@ -127,14 +127,16 @@ class childController {
     var storage = require('filestorage').create(`./childPictures/${req.params.id}`);
     var s = storage.insert(req.body.imageName, req.body.imageUrl);
     // if (s) {
-      u.myPictures.push({ imageName: req.body.imageName, imageUrl: `childPictures/${req.params.id}/${s}`, imageId: s });
+      u.myPictures.push(`C:\שיפי\פרויקט\ChildDevelopmentServer\childPictures/${req.params.id}/${s}.jpg`);
       u.save();
     // }
     return res.status(200).send(u.myPictures);
   }
 
   async getChildPictures(req, res) {
-
+    let c=await child.findById(req.params.id);
+    console.log(c.myPictures);
+    return res.status(200).send(c.myPictures);
   }
 
   async removeImage(req, res) {

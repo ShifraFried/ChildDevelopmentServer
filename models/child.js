@@ -25,9 +25,7 @@ const childSchema = new mongoose.Schema({
         // date: Date,
         NumberOfVaccineDoses:Number
     },{ timestamps: true }],
-    myPictures:[{ 
-        imageName:String,imageUrl:String,imageId:Number,
-    }]
+    myPictures:[]
 }
 // , { virtuals: true })
 )

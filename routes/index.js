@@ -60,6 +60,7 @@ router.get("/getChildVaccine/:id",childController.getChildVaccine);
 router.put("/updateRecordVaccine",childController.updateRecordVaccine);
 router.post("/createItem/:id",childController.createItem);
 router.delete("/removeImage",childController.removeImage);
+router.get("/getChildPictures/:id",childController.getChildPictures);
 
 
 
