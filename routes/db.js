@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 
 class dataBase {
-    
-    constructor(){
+
+    constructor() {
     }
 
-    connect(){
-        let url="mongodb://localhost:27017/ChildDevelopmentDB";
-        mongoose.connect(url,{useNewUrlParser:true, useUnifiedTopology:true}).then(()=>{
+    connect() {
+        let url = "mongodb://localhost:27017/ChildDevelopmentDB";
+        mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
             console.log("DB connect succefuly");
         })
-        .catch((err)=>{
-            console.log("connect failed")
-        })
+            .catch((err) => {
+                console.log("connect failed")
+            })
     }
-  }
+}
 
-module.exports=new dataBase();
+module.exports = new dataBase();

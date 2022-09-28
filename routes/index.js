@@ -3,10 +3,11 @@ var router = express.Router();
 const jwt = require("jsonwebtoken");
 const childController = require('../controllers/childController');
 const vaccineController = require('../controllers/vaccineController');
-
 var MongoClient = require('mongodb').MongoClient;
 var urlToCreate = "mongodb://localhost:27017/ChildDevelopmentDB";
 var url = "mongodb://localhost:27017/";
+const upload = require('../middlewares/upload');
+
 
 
 //create DB
@@ -50,6 +51,7 @@ router.get("/createVaccinesColection", () => {
   });
 })
 
+
 router.post("/signup",childController.signup);
 router.get("/login",childController.login);
 router.put("/putWeight",childController.putWeight);
@@ -58,11 +60,7 @@ router.post("/postVaccine",vaccineController.postVaccine);
 router.get("/getAllVaccine",vaccineController.getAllVaccine);
 router.get("/getChildVaccine/:id",childController.getChildVaccine);
 router.put("/updateRecordVaccine",childController.updateRecordVaccine);
-router.post("/createItem/:id",childController.createItem);
-router.delete("/removeImage",childController.removeImage);
-router.get("/getChildPictures/:id",childController.getChildPictures);
-
-
+router.post("/postPicture",childController.postPicture);
 
 
 module.exports = router;
